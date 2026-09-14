@@ -34,6 +34,8 @@
 
 #include "sick_safetyscanners_base/datastructure/ConfigData.h"
 
+#include <boost/asio/ip/address.hpp>
+
 namespace sick {
 namespace datastructure {
 
@@ -91,7 +93,7 @@ void ConfigData::setHostIp(const boost::asio::ip::address_v4& host_ip)
 
 void ConfigData::setHostIp(const std::string& host_ip)
 {
-  m_host_ip = boost::asio::ip::address_v4::from_string(host_ip);
+  m_host_ip = boost::asio::ip::make_address(host_ip).to_v4();
 }
 
 uint16_t ConfigData::getHostUdpPort() const

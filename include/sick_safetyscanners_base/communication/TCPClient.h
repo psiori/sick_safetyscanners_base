@@ -35,7 +35,7 @@
 #ifndef SICK_SAFETYSCANNERS_BASE_COMMUNICATION_SYNCTCPCLIENT_H
 #define SICK_SAFETYSCANNERS_BASE_COMMUNICATION_SYNCTCPCLIENT_H
 
-#include <boost/asio.hpp>
+#include "sick_safetyscanners_base/AsioCompat.hpp"
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 #include <cstdint>
 #include <vector>

@@ -39,7 +39,7 @@
 
 #include <iostream>
 
-#include <boost/asio.hpp>
+#include "sick_safetyscanners_base/AsioCompat.hpp"
 
 #include "sick_safetyscanners_base/Types.h"
 #include "sick_safetyscanners_base/datastructure/PacketBuffer.h"

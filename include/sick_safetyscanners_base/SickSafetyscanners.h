@@ -46,7 +46,7 @@
 #include <string>
 #include <vector>
 
-#include <boost/asio.hpp>
+#include "sick_safetyscanners_base/AsioCompat.hpp"
 #include <boost/scoped_ptr.hpp>
 #include <boost/thread.hpp>
 
