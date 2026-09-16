@@ -140,6 +140,18 @@ public:
    */
   void changeSensorSettings(const CommSettings& settings);
 
+  /*!
+   * \brief Set the default timeout for CoLa2 commands on this scanner.
+   *
+   * \param timeout Timeout for each TCP connect/send/receive operation in a command.
+   */
+  void setCommandTimeout(sick::types::time_duration_t timeout);
+
+  /*!
+   * \brief Return the default timeout for CoLa2 commands on this scanner.
+   */
+  sick::types::time_duration_t commandTimeout() const;
+
   /**
    * \brief Requests the typecode of the sensor.
    * \param type_code Returned typecode.
@@ -226,6 +238,17 @@ public:
   void requestLatestTelegram(datastructure::Data& data, int8_t channel_index = 0);
 
   /*!
+   * \brief Requests the latest sensor data telegram with a custom per-call timeout.
+   *
+   * \param data Returned data.
+   * \param channel_index The channel index in the range of (0-3).
+   * \param timeout Timeout for each TCP send/receive operation in this command.
+   */
+  void requestLatestTelegram(datastructure::Data& data,
+                             int8_t channel_index,
+                             sick::types::time_duration_t timeout);
+
+  /*!
    * \brief Requests the sensor to let its display blink in various colors for the specified time.
    *
    * \param blink_time The time of the display to blink [seconds].
@@ -264,6 +287,7 @@ private:
   sick::types::ip_address_t m_sensor_ip;
   CommSettings m_comm_settings;
   std::unique_ptr<boost::asio::io_service> m_io_service_ptr;
+  sick::types::time_duration_t m_command_timeout{boost::posix_time::seconds(5)};
 
   /*!
    * \brief Helper function to create command objects generically.
@@ -275,10 +299,24 @@ private:
   template <class CommandT, typename... Args>
   void inline createAndExecuteCommand(Args&&... args)
   {
-    m_session.open();
+    createAndExecuteCommand<CommandT>(m_command_timeout, std::forward<Args>(args)...);
+  }
+
+  /*!
+   * \brief Helper function to create command objects generically with a custom timeout.
+   *
+   * 	param CommandT The command-object type.
+   * 	param Args Argument list type.
+   * \param timeout Timeout for each TCP send/receive operation in this command.
+   * \param args The actual passed arguments to initialize the command object.
+   */
+  template <class CommandT, typename... Args>
+  void inline createAndExecuteCommand(sick::types::time_duration_t timeout, Args&&... args)
+  {
+    m_session.open(timeout);
     CommandT cmd(std::forward<Args>(args)...);
-    m_session.sendCommand(cmd);
-    m_session.close();
+    m_session.sendCommand(cmd, timeout);
+    m_session.close(timeout);
   }
 
 protected:

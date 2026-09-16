@@ -86,6 +86,16 @@ SickSafetyscannersBase::SickSafetyscannersBase(sick::types::ip_address_t sensor_
 }
 
 
+void SickSafetyscannersBase::setCommandTimeout(sick::types::time_duration_t timeout)
+{
+  m_command_timeout = timeout;
+}
+
+sick::types::time_duration_t SickSafetyscannersBase::commandTimeout() const
+{
+  return m_command_timeout;
+}
+
 void SickSafetyscannersBase::changeSensorSettings(const CommSettings& settings)
 {
   CommSettings _settings  = settings;
@@ -213,13 +223,20 @@ void SickSafetyscannersBase::requestDeviceStatus(sick::datastructure::DeviceStat
 void SickSafetyscannersBase::requestLatestTelegram(sick::datastructure::Data& data,
                                                    int8_t channel_index)
 {
+  requestLatestTelegram(data, channel_index, m_command_timeout);
+}
+
+void SickSafetyscannersBase::requestLatestTelegram(sick::datastructure::Data& data,
+                                                   int8_t channel_index,
+                                                   sick::types::time_duration_t timeout)
+{
   if (channel_index < 0 || channel_index > 3)
   {
     LOG_WARN("Index is out of bounds, returning default channel 0");
     channel_index = 0;
   }
   createAndExecuteCommand<sick::cola2::LatestTelegramVariableCommand>(
-    m_session, data, channel_index);
+    timeout, m_session, data, channel_index);
 }
 
 void SickSafetyscannersBase::requestRequiredUserAction(

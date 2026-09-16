@@ -2,6 +2,11 @@
 Changelog for package sick_safetyscanners_base
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Unreleased
+----------
+* Add configurable CoLa2 command timeouts via setCommandTimeout and requestLatestTelegram overload
+* Thread custom timeouts through Cola2Session open/close and createAndExecuteCommand
+
 1.0.4 (2026-08-13)
 ------------------
 * Added support for missing I/O scanners and EtherCAT type codes

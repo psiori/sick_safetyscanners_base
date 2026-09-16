@@ -69,15 +69,15 @@ void Cola2Session::setSessionID(uint32_t session_id)
   }
 }
 
-void Cola2Session::open()
+void Cola2Session::open(sick::types::time_duration_t timeout)
 {
   if (isOpen())
   {
-    close();
+    close(timeout);
   }
-  m_tcp_client_ptr->connect();
+  m_tcp_client_ptr->connect(timeout);
   CreateSession cmd(*this);
-  sendCommand(cmd);
+  sendCommand(cmd, timeout);
   auto sessID = cmd.getSessionID();
   setSessionID(sessID);
   // LOG_DEBUG("Successfully opened Cola2 session with sessionID: %u", sessID);
@@ -88,7 +88,7 @@ bool Cola2Session::isOpen() const
   return m_tcp_client_ptr->isConnected();
 }
 
-void Cola2Session::close()
+void Cola2Session::close(sick::types::time_duration_t timeout)
 {
   if (!isOpen())
   {
@@ -96,7 +96,7 @@ void Cola2Session::close()
     return;
   }
   CloseSession cmd(*this);
-  sendCommand(cmd);
+  sendCommand(cmd, timeout);
   // auto sessID = cmd.getSessionID();
   m_tcp_client_ptr->disconnect();
 }

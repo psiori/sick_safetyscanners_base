@@ -114,15 +114,17 @@ public:
   /*!
    * \brief Opens a COLA2 session.
    *
+   * \param timeout Timeout for the TCP connect and session creation commands.
    */
-  void open();
+  void open(sick::types::time_duration_t timeout = boost::posix_time::seconds(5));
 
   /*!
    * \brief Closes the current COLA2 session. If no session is opened, the function will return
    * silently without raising an exception.
    *
+   * \param timeout Timeout for the session close command.
    */
-  void close();
+  void close(sick::types::time_duration_t timeout = boost::posix_time::seconds(5));
 
 private:
   uint16_t m_request_id;
