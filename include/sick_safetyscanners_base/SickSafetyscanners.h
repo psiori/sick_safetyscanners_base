@@ -277,6 +277,13 @@ public:
   void requestPersistentConfig(ConfigData& config_data);
 
   /*!
+   * \brief Requests the current runtime measurement configuration from the sensor.
+   *
+   * \param config_data Returned current configuration data, including derived scan layout.
+   */
+  void requestCurrentConfig(ConfigData& config_data);
+
+  /*!
    * \brief Requests the monitoring cases from the sensor.
    *
    * \param monitoring_cases Returned monitoring cases.

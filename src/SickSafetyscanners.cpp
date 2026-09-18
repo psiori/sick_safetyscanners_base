@@ -203,6 +203,11 @@ void SickSafetyscannersBase::requestPersistentConfig(sick::datastructure::Config
                                                                              config_data);
 }
 
+void SickSafetyscannersBase::requestCurrentConfig(sick::datastructure::ConfigData& config_data)
+{
+  createAndExecuteCommand<cola2::MeasurementCurrentConfigVariableCommand>(m_session, config_data);
+}
+
 void SickSafetyscannersBase::requestConfigMetadata(
   sick::datastructure::ConfigMetadata& config_metadata)
 {
