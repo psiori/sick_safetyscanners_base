@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 project(sick_safetyscanners_base CXX)
 
 ## Find system libraries
-find_package(Boost REQUIRED COMPONENTS thread chrono)
+find_package(Boost REQUIRED COMPONENTS thread)
 
 
 ###########

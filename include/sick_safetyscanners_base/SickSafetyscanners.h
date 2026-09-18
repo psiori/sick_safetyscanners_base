@@ -294,7 +294,7 @@ private:
   sick::types::ip_address_t m_sensor_ip;
   CommSettings m_comm_settings;
   std::unique_ptr<boost::asio::io_service> m_io_service_ptr;
-  sick::types::time_duration_t m_command_timeout{boost::posix_time::seconds(5)};
+  sick::types::time_duration_t m_command_timeout{sick::types::default_timeout};
 
   /*!
    * \brief Helper function to create command objects generically.
@@ -464,7 +464,7 @@ public:
    * \param timeout Timeout in [seconds].
    * \return const Data Returned sensor data.
    */
-  const Data receive(sick::types::time_duration_t timeout = boost::posix_time::pos_infin);
+  const Data receive(sick::types::time_duration_t timeout = sick::types::infinite_timeout);
 };
 } // namespace sick
 

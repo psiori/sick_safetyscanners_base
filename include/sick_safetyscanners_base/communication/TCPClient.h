@@ -36,7 +36,7 @@
 #define SICK_SAFETYSCANNERS_BASE_COMMUNICATION_SYNCTCPCLIENT_H
 
 #include "sick_safetyscanners_base/AsioCompat.hpp"
-#include <boost/date_time/posix_time/posix_time_types.hpp>
+#include <boost/asio/steady_timer.hpp>
 #include <cstdint>
 #include <vector>
 
@@ -71,7 +71,7 @@ public:
    *
    * \param timeout A timeout limit to establish a new connection.
    */
-  void connect(sick::types::time_duration_t timeout = boost::posix_time::seconds(5));
+  void connect(sick::types::time_duration_t timeout = sick::types::default_timeout);
 
   /*!
    * \brief Disconnects this client from the sensor.
@@ -101,7 +101,7 @@ public:
    * \return sick::datastructure::PacketBuffer
    */
   sick::datastructure::PacketBuffer
-  receive(sick::types::time_duration_t timeout = boost::posix_time::seconds(5));
+  receive(sick::types::time_duration_t timeout = sick::types::default_timeout);
 
 private:
   boost::asio::io_service m_io_service;
@@ -109,7 +109,7 @@ private:
   boost::asio::ip::tcp::socket m_socket;
   sick::types::ip_address_t m_server_ip;
   sick::types::port_t m_server_port;
-  boost::asio::deadline_timer m_deadline;
+  boost::asio::steady_timer m_deadline;
 
   /*!
    * \brief A function to check internal deadline constraints on connect, receive and send

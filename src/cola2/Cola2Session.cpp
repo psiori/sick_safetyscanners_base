@@ -114,7 +114,7 @@ void Cola2Session::assembleAndSendTelegram(Command& cmd)
 }
 
 sick::datastructure::PacketBuffer
-Cola2Session::receiveAndProcessResponse(Command& cmd, boost::posix_time::time_duration timeout)
+Cola2Session::receiveAndProcessResponse(Command& cmd, sick::types::time_duration_t timeout)
 {
   sick::data_processing::TCPPacketMerger packet_merger(0);
   sick::data_processing::ParseTCPPacket tcp_packet_parser;
@@ -133,7 +133,7 @@ Cola2Session::receiveAndProcessResponse(Command& cmd, boost::posix_time::time_du
   return response;
 }
 
-void Cola2Session::sendCommand(Command& cmd, boost::posix_time::time_duration timeout)
+void Cola2Session::sendCommand(Command& cmd, sick::types::time_duration_t timeout)
 {
   assembleAndSendTelegram(cmd);
   auto response = receiveAndProcessResponse(cmd, timeout);

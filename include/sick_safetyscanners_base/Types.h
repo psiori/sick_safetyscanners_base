@@ -38,7 +38,7 @@
 #include "sick_safetyscanners_base/datastructure/Data.h"
 #include "sick_safetyscanners_base/datastructure/PacketBuffer.h"
 #include <boost/asio/ip/address_v4.hpp>
-#include <boost/date_time/posix_time/posix_time_types.hpp>
+#include <chrono>
 #include <cstdint>
 #include <functional>
 #include <memory>
@@ -71,10 +71,22 @@ using ip_address_t = boost::asio::ip::address_v4;
 using port_t = uint16_t;
 
 /*!
- * \brief Type alias for the currently used.
+ * \brief Type alias for timeout durations used across the library.
  *
  */
-using time_duration_t = boost::posix_time::time_duration;
+using time_duration_t = std::chrono::steady_clock::duration;
+
+/*!
+ * \brief Default timeout for TCP/CoLa2 operations.
+ *
+ */
+inline constexpr time_duration_t default_timeout = std::chrono::seconds(5);
+
+/*!
+ * \brief Sentinel duration indicating no timeout limit.
+ *
+ */
+inline constexpr time_duration_t infinite_timeout = time_duration_t::max();
 
 /*!
  * \brief Type alias for the sensor feature flags.

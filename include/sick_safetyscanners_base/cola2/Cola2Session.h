@@ -88,7 +88,7 @@ public:
    * timeout limit but guarantees the synchronous send/receive operations not to wait forever.
    */
   void sendCommand(Command& cmd,
-                   sick::types::time_duration_t timeout = boost::posix_time::seconds(5));
+                   sick::types::time_duration_t timeout = sick::types::default_timeout);
 
   /*!
    * \brief Get the current session ID, if available.
@@ -116,7 +116,7 @@ public:
    *
    * \param timeout Timeout for the TCP connect and session creation commands.
    */
-  void open(sick::types::time_duration_t timeout = boost::posix_time::seconds(5));
+  void open(sick::types::time_duration_t timeout = sick::types::default_timeout);
 
   /*!
    * \brief Closes the current COLA2 session. If no session is opened, the function will return
@@ -124,7 +124,7 @@ public:
    *
    * \param timeout Timeout for the session close command.
    */
-  void close(sick::types::time_duration_t timeout = boost::posix_time::seconds(5));
+  void close(sick::types::time_duration_t timeout = sick::types::default_timeout);
 
 private:
   uint16_t m_request_id;

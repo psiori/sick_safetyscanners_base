@@ -6,6 +6,7 @@ Unreleased
 ----------
 * Add configurable CoLa2 command timeouts via setCommandTimeout and requestLatestTelegram overload
 * Thread custom timeouts through Cola2Session open/close and createAndExecuteCommand
+* Replace boost::posix_time with std::chrono and drop the Boost chrono dependency
 
 1.0.4 (2026-08-13)
 ------------------

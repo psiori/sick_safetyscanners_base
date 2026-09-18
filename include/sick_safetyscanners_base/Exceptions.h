@@ -35,7 +35,7 @@
 #ifndef SICK_SAFETYSCANNERS_BASE_EXCEPTIONS_H
 #define SICK_SAFETYSCANNERS_BASE_EXCEPTIONS_H
 
-#include <boost/date_time/posix_time/posix_time_types.hpp>
+#include "sick_safetyscanners_base/Types.h"
 #include <chrono>
 #include <exception>
 #include <sstream>
@@ -150,14 +150,15 @@ public:
    * \brief Constructor of the timeout error object
    *
    * \param msg A description of the reason for the failure.
-   * \param timeout The timeout that has been exceeded represented in
-   * boost::posix_time::timeduration. The timeout information is appended as string after the
-   * message string.
+   * \param timeout The timeout that has been exceeded. The timeout information is appended as
+   * string after the message string.
    */
-  explicit timeout_error(const std::string& msg, boost::posix_time::time_duration timeout)
+  explicit timeout_error(const std::string& msg, sick::types::time_duration_t timeout)
   {
     std::stringstream ss;
-    ss << msg << " [timeout: " << timeout.total_milliseconds() * 1e-3 << "seconds]";
+    const auto timeout_sec =
+      std::chrono::duration_cast<std::chrono::duration<double>>(timeout).count();
+    ss << msg << " [timeout: " << timeout_sec << "seconds]";
     msg_ = ss.str();
   }
 
