@@ -9,6 +9,8 @@ find_package(Boost REQUIRED COMPONENTS thread)
 ## Build ##
 ###########
 option(USE_ROS_LOGGING "Use ROS Logging instead of printf" OFF)
+option(SICK_SAFETYSCANNERS_BASE_DISABLE_LOGGING
+       "Disable sick_safetyscanners_base printf logging" ON)
 
 if(USE_ROS_LOGGING)
   add_definitions(-DROS_BUILD=1)
@@ -119,11 +121,9 @@ set_target_properties(sick_safetyscanners_base PROPERTIES
 target_compile_options(sick_safetyscanners_base
   PRIVATE -Wall)
 
-option(USE_ROS_LOGGING "Use ROS Logging instead of printf" OFF)
-
-if(USE_ROS_LOGGING)
+if(SICK_SAFETYSCANNERS_BASE_DISABLE_LOGGING)
   target_compile_definitions(sick_safetyscanners_base
-    PRIVATE ROS_BUILD=1)
+    PRIVATE SICK_SAFETYSCANNERS_BASE_DISABLE_LOGGING)
 endif()
 
 target_include_directories(sick_safetyscanners_base PUBLIC

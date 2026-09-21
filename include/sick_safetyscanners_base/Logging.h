@@ -23,6 +23,15 @@
 namespace sick {
 namespace logging {
 
+#ifdef SICK_SAFETYSCANNERS_BASE_DISABLE_LOGGING
+#  define SICK_SSB_LOG_NOOP(...) ((void)0)
+#  define LOG_DEBUG SICK_SSB_LOG_NOOP
+#  define LOG_WARN SICK_SSB_LOG_NOOP
+#  define LOG_INFO SICK_SSB_LOG_NOOP
+#  define LOG_ERROR SICK_SSB_LOG_NOOP
+#  define LOG_FATAL SICK_SSB_LOG_NOOP
+#else
+
 #ifndef LOG_DEBUG
 #  ifndef LOG_WARN
 #    ifndef LOG_INFO
@@ -51,6 +60,8 @@ namespace logging {
 #    endif       // LOG_INFO
 #  endif         // LOG_WARN
 #endif           // LOG_DEBUG
+
+#endif // SICK_SAFETYSCANNERS_BASE_DISABLE_LOGGING
 
 } // namespace logging
 } // namespace sick
