@@ -96,6 +96,44 @@ sick::types::time_duration_t SickSafetyscannersBase::commandTimeout() const
   return m_command_timeout;
 }
 
+void SickSafetyscannersBase::openCola2Session(sick::types::time_duration_t timeout)
+{
+  m_session.open(timeout);
+}
+
+void SickSafetyscannersBase::closeCola2Session(sick::types::time_duration_t timeout)
+{
+  m_session.close(timeout);
+}
+
+bool SickSafetyscannersBase::isCola2SessionOpen() const
+{
+  return m_session.isOpen();
+}
+
+void SickSafetyscannersBase::changeSensorSettingsInSession(const CommSettings& settings,
+                                                           sick::types::time_duration_t timeout)
+{
+  CommSettings _settings  = settings;
+  _settings.host_udp_port = m_udp_client.getLocalPort();
+  sick::cola2::ChangeCommSettingsCommand cmd(m_session, _settings);
+  m_session.sendCommand(cmd, timeout);
+}
+
+void SickSafetyscannersBase::requestLatestTelegramInSession(
+  sick::datastructure::Data& data,
+  int8_t channel_index,
+  sick::types::time_duration_t timeout)
+{
+  if (channel_index < 0 || channel_index > 3)
+  {
+    LOG_WARN("Index is out of bounds, returning default channel 0");
+    channel_index = 0;
+  }
+  sick::cola2::LatestTelegramVariableCommand cmd(m_session, data, channel_index);
+  m_session.sendCommand(cmd, timeout);
+}
+
 void SickSafetyscannersBase::changeSensorSettings(const CommSettings& settings)
 {
   CommSettings _settings  = settings;

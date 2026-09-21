@@ -126,6 +126,14 @@ public:
    */
   void close(sick::types::time_duration_t timeout = sick::types::default_timeout);
 
+  /*!
+   * \brief Indicates whether a COLA2 session is currently opened.
+   *
+   * \return true The COLA2 session is open.
+   * \return false The COLA2 session is closed.
+   */
+  bool isOpen() const;
+
 private:
   uint16_t m_request_id;
   boost::optional<uint32_t> m_session_id;
@@ -138,14 +146,6 @@ private:
    * \param cmd The command to be processed.
    */
   void assembleAndSendTelegram(Command& cmd);
-
-  /*!
-   * \brief Indicates whether a COLA2 session is currently opened.
-   *
-   * \return true The COLA2 session is open.
-   * \return false The COLA2 session is closed.
-   */
-  bool isOpen() const;
 
   /*!
    * \brief Assembles a packetBuffer object by merging TCP packets from one or multiple response

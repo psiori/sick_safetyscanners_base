@@ -152,6 +152,47 @@ public:
    */
   sick::types::time_duration_t commandTimeout() const;
 
+  /*!
+   * \brief Open a persistent ColA2 session for subsequent in-session commands.
+   *
+   * \param timeout Timeout for the TCP connect and session creation commands.
+   */
+  void openCola2Session(sick::types::time_duration_t timeout = sick::types::default_timeout);
+
+  /*!
+   * \brief Close the current ColA2 session if one is open.
+   *
+   * \param timeout Timeout for the session close command.
+   */
+  void closeCola2Session(sick::types::time_duration_t timeout = sick::types::default_timeout);
+
+  /*!
+   * \brief Indicates whether a ColA2 session is currently open on this scanner.
+   */
+  bool isCola2SessionOpen() const;
+
+  /*!
+   * \brief Push comm settings on an already open ColA2 session.
+   *
+   * \param settings New settings to pass to the sensor.
+   * \param timeout Timeout for the command send/receive operations.
+   */
+  void changeSensorSettingsInSession(const CommSettings& settings,
+                                     sick::types::time_duration_t timeout =
+                                         sick::types::default_timeout);
+
+  /*!
+   * \brief Read the latest scan telegram on an already open ColA2 session.
+   *
+   * \param data Returned data.
+   * \param channel_index The channel index in the range of (0-3).
+   * \param timeout Timeout for the command send/receive operations.
+   */
+  void requestLatestTelegramInSession(datastructure::Data& data,
+                                      int8_t channel_index                = 0,
+                                      sick::types::time_duration_t timeout =
+                                          sick::types::default_timeout);
+
   /**
    * \brief Requests the typecode of the sensor.
    * \param type_code Returned typecode.
